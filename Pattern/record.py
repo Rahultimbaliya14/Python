@@ -2,26 +2,34 @@ import pyautogui as a
 import pyttsx3
 import speech_recognition as sr 
 import time as t
+import pywhatkit as play
 def main():
     r=sr.Recognizer()
     with sr.Microphone() as source:
+        import pyttsx3
         r.adjust_for_ambient_noise(source)
-        print("Say somethin")
+        engine1=engine=pyttsx3.init()
+        engine1.say("Welcome Sir What Can Do For You")
+        engine1.runAndWait()
+        print("listening")
         audio=r.listen(source)
 
         try:
             import pyautogui as a
             import pyttsx3
             engine=engine=pyttsx3.init()
-            a=str(r.recognize_google(audio))
-            print(a)
+            b=str(r.recognize_google(audio))
+            b=b.lower()
+            print(b)
+
+            print(b)
             print("you said : \n "+r.recognize_google(audio))
-            if(a=="open file"):
+            if(b=="open file"):
                 import pyautogui as a
                 engine.say("yes sir Opening File Explorer")
                 engine.runAndWait()
                 a.hotkey("win","e")
-            elif(a=="open Chrome"):
+            elif(b=="open chrome"):
                 import pyautogui as a
                 engine.say("yes sir Opening Crome Browser")
                 engine.runAndWait()
@@ -29,20 +37,21 @@ def main():
                 t.sleep(0.25)
                 a.write("crome",interval=0.10)
                 a.press("enter")
-            elif(a=="shutdown"):
+            elif(b=="shutdown"):
                 import pyautogui as a
                 engine.say("ok sir shutdown Your Pc in 2 seconds")
                 engine.runAndWait()
                 t.sleep(4)
                 a.hotkey("ctrl","f4")
-
+            elif('play' in b):
+                engine.say("Ok Sir"+b)
+                engine.runAndWait()
+                print(b)
+                play.playonyt(b)
+                play.playon()
 
         except Exception as e:
             print(e)
-        
-
-        with open("recorgnise.wav","wb") as f:
-            f.write(audio.get_wav_data())
 
 if __name__=="__main__":
     main()
